@@ -15,19 +15,19 @@ class DataFrameTransformer:
         logger.setLevel(logging.INFO)
         return logger
 
-    def format_data_dataframe(self, df, date_column='Data', date_format='%b %d, %Y'):
+    def format_data_dataframe(self, df, date_column='Data', date_format_in='%b %d, %Y',date_format_out='%Y/%m/%d'):
         try:
-            self.logger.info(f'Formatando coluna data" {date_column}" com o formato ano/mes/dia".')
-            df[date_column] = pd.to_datetime(df[date_column], format=date_format)
-            df[date_column].dt.strftime('%Y/%m/%d')
+            self.logger.info(f'Transformando a coluna "{date_column}" para o formato {date_format_out}".')
+            df[date_column] = pd.to_datetime(df[date_column], format=date_format_in)
+            df[date_column] = df[date_column].dt.strftime(date_format_out)
             return df
         except Exception as e:
-            self.logger.error(f'Error formatacao da coluna ano/mes/dia: {e}')
-            raise Exception(f'Error formatacao da coluna ano/mes/dia: {e}')
+            self.logger.error(f'Error formatacao da coluna: {e}')
+            raise Exception(f'Error formatacao da coluna: {e}')
 
     def create_dataframe(self, data, columns):
         try:
-            self.logger.info(f'criacao do DataFrame com colunas: {columns}')
+            self.logger.info(f'criando o DataFrame com as colunas: {columns}')
             df = pd.DataFrame(data, columns=columns)
             return df
         except Exception as e:
