@@ -12,7 +12,6 @@ def crawler():
 
 @patch('src.extract.crawler.HTMLSession.get')
 def test_fetch_response_success(mock_get, crawler):
-    # Mocking a successful response
     mock_response = MagicMock()
     mock_response.status_code = 200
     mock_get.return_value = mock_response
@@ -20,7 +19,6 @@ def test_fetch_response_success(mock_get, crawler):
     response = crawler._fetch_response()
     assert response.status_code == 200
 
-# Exemplos adicionais de testes para lidar com exceções
 @patch('src.extract.crawler.HTMLSession.get')
 def test_fetch_response_connection_error(mock_get, crawler):
     mock_get.side_effect = ConnectionError
@@ -51,13 +49,11 @@ def test_fetch_response_request_exception(mock_get, crawler):
         
 @patch('src.extract.crawler.HTMLSession')
 def test_render_html_pyppeteer_error(mock_HTMLSession, crawler):
-    # Mock setup
     mock_html_session = MagicMock()
     mock_HTMLSession.return_value = mock_html_session
     mock_response = MagicMock()
     mock_html_session.get.return_value = mock_response
     mock_response.html.render.side_effect = PyppeteerError("Some Pyppeteer error")
     
-    # Test _render_html method
     with pytest.raises(Exception, match="An error occurred during rendering: Some Pyppeteer error"):
         crawler._render_html(mock_response)
