@@ -3,7 +3,6 @@ from requests.exceptions import RequestException, Timeout, HTTPError, Connection
 from pyppeteer.errors import PyppeteerError
 from requests_html import HTMLSession
 from bs4 import BeautifulSoup
-import pandas as pd
 from src.utils.utils import find_element, find_all_elements
 
 
@@ -84,7 +83,6 @@ class CrawlerCompassFT:
         """Obtém e renderiza a pagina HTML, logando o resultado e gerando as exceções."""
         response = self._fetch_response()
         self._render_html(response)
-
         status_code = response.status_code
         message = self._get_status_message(status_code)
 
