@@ -71,6 +71,7 @@ class CrawlerCompassFT:
             raise Exception(message)
 
     def _parse_html(self, response):
+        """Parseando o HTML da resposta e tratando os erros de parsing."""
         try:
             self.logger.info('Parsendo HTML.')
             return BeautifulSoup(response.html.html, "html.parser")
@@ -91,7 +92,6 @@ class CrawlerCompassFT:
             raise Exception(message)
 
         self.logger.info(message)
-
         return response
 
     def get_table_indice(self, response):
