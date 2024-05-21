@@ -49,4 +49,15 @@ def test_fetch_response_request_exception(mock_get, crawler):
     with pytest.raises(Exception, match="An error occurred during the request: Some request error"):
         crawler._fetch_response()
         
-
+@patch('src.extract.crawler.HTMLSession')
+def test_render_html_pyppeteer_error(mock_HTMLSession, crawler):
+    # Mock setup
+    mock_html_session = MagicMock()
+    mock_HTMLSession.return_value = mock_html_session
+    mock_response = MagicMock()
+    mock_html_session.get.return_value = mock_response
+    mock_response.html.render.side_effect = PyppeteerError("Some Pyppeteer error")
+    
+    # Test _render_html method
+    with pytest.raises(Exception, match="An error occurred during rendering: Some Pyppeteer error"):
+        crawler._render_html(mock_response)
